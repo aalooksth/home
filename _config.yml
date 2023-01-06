@@ -8,7 +8,7 @@ description: If I could describe me in few words, that wont justify my years of 
 # Minima date format
 # refer to https://shopify.github.io/liquid/filters/date/ if you want to customize this
 minima:
-skin: auto
+  skin: auto
   date_format: "%b %-d, %Y"
 
   # generate social links in footer
