@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Alok</title>
+</head>
+
+<body>
+    <div id="foobutton"></div>
+    <img alt='QR' id="image"
+        src='https://api.qrserver.com/v1/create-qr-code/?size=150x150&data={"accountNumber":"1705750643924001","accountName": "ALOK SHRESTHA", "bankCode": "BOALNPKA"}' />
+    <div id = "text">NIC ASIA BANK</div>
+
+    <script>
+        var accounts = {
+            "Global IME Bank": {
+                "bankCode": "GLBBNPKA",
+                "BANKNAME": "Global IME Bank Limited", "accountName": "ALOK SHRESTHA", "accountNumber": "3607010016155"
+            },
+            "Nepal Investment Mega Bank": { 
+                "accountNumber": "06105280253284", "accountName": "ALOK SHRESTHA", "bankCode": "NIBLNPKT", "accountType": "CORPORATE SAVING ACCOUNT" },
+            "NIC Asia Bank (preferred)": {
+                "accountNumber": "1705750643924001", "accountName": "ALOK SHRESTHA",
+                "bankCode": "BOALNPKA",
+                "accountType": "Special Savings"
+            },
+            "Siddhartha Bank": {
+                "accountNumber": "55501769114",
+                "accountName": "ALOK SHRESTHA",
+                "bankCode": "SIDDNPKA"
+            },
+        };
+
+        var foo = function () {
+            for (const [key, value] of Object.entries(accounts)) {
+                var button = document.createElement('button');
+                button.innerHTML = key;
+                button.onclick = function () {
+                    document.getElementById("image").src = "https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=" + encodeURIComponent(JSON.stringify(value));document.getElementById("text").innerHTML=key;
+                    // alert(JSON.stringify(value)); return false;
+                };
+                document.getElementById('foobutton').appendChild(button);
+                // document.body.appendChild(button);
+            }
+        };
+        foo()
+    </script>
+</body>
+
+</html>
