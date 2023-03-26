@@ -3,44 +3,86 @@
 
 <head>
     <title>Alok</title>
+    <style>
+        .center {
+            text-align: center;
+        }
+    </style>
 </head>
 
 <body>
-    <div id="foobutton"></div>
-    <img alt='QR' id="image"
-        src='https://api.qrserver.com/v1/create-qr-code/?size=150x150&data={"accountNumber":"1705750643924001","accountName": "ALOK SHRESTHA", "bankCode": "BOALNPKA"}' />
-    <div id = "text">NIC ASIA BANK</div>
-
+    <p><a href="/">Return to home</a></p>
+    <h1>Pay to Alok</h1>
+    <div class="center">
+        <div id="foobutton"></div>
+        <img alt='QR' id="image" />
+        <div id="text"></div>
+    </div>
     <script>
+        var qrAPIlink = "https://quickchart.io/qr?size=300&text=";
+        // "https://api.qrserver.com/v1/create-qr-code/?size=300x300&data="
         var accounts = {
-            "Global IME Bank": {
-                "bankCode": "GLBBNPKA",
-                "BANKNAME": "Global IME Bank Limited", "accountName": "ALOK SHRESTHA", "accountNumber": "3607010016155"
+            "Bank Transfer": {
+                "Global IME Bank": {
+                    "qrdata": {
+                        "bankCode": "GLBBNPKA",
+                        "BANKNAME": "Global IME Bank Limited", "accountName": "ALOK SHRESTHA", "accountNumber": "3607010016155"
+                    }
+                },
+                "Nepal Investment Mega Bank": {
+                    "qrdata": {
+                        "accountNumber": "06105280253284", "accountName": "ALOK SHRESTHA", "bankCode": "NIBLNPKT", "accountType": "CORPORATE SAVING ACCOUNT"
+                    }
+                },
+                "NIC Asia Bank (preferred)": {
+                    "qrdata": {
+                        "accountNumber": "1705750643924001", "accountName": "ALOK SHRESTHA",
+                        "bankCode": "BOALNPKA",
+                        "accountType": "Special Savings"
+                    }
+                },
+                "Siddhartha Bank": {
+                    "qrdata": {
+                        "accountNumber": "55501769114",
+                        "accountName": "ALOK SHRESTHA",
+                        "bankCode": "SIDDNPKA"
+                    }
+                },
+
             },
-            "Nepal Investment Mega Bank": { 
-                "accountNumber": "06105280253284", "accountName": "ALOK SHRESTHA", "bankCode": "NIBLNPKT", "accountType": "CORPORATE SAVING ACCOUNT" },
-            "NIC Asia Bank (preferred)": {
-                "accountNumber": "1705750643924001", "accountName": "ALOK SHRESTHA",
-                "bankCode": "BOALNPKA",
-                "accountType": "Special Savings"
-            },
-            "Siddhartha Bank": {
-                "accountNumber": "55501769114",
-                "accountName": "ALOK SHRESTHA",
-                "bankCode": "SIDDNPKA"
-            },
+            "Wallets": {
+                "eSewa": {
+                    "qrdata": { "eSewa_id": "9849391375", "name": "ALOK SHRESTHA" }
+                },
+                "Khalti": {
+                    "qrdata": "00020101021115314079052400520446C7KzcrKHoxVexRy5204701153035245802NP5919Alok General Stores6005Nepal621207080000000080260022C7KzcrKHoxVexRy5c2EfkB6304D6BC"
+                },
+                "connectIPS / NepalPayQR": {
+                    "qrdata": "01021129270023NCHL00000000MER-1-APP-252044829530352454010560105802NP5914Alok Shrestha 6009Kathmandu6235021098493913750817CIPS P2P Transfer63044920"
+                }
+            }
         };
 
+        var preferredData = accounts['Bank Transfer']["NIC Asia Bank (preferred)"]
+        document.getElementById("image").src = qrAPIlink + encodeURIComponent(JSON.stringify(preferredData['qrdata']));
+        document.getElementById("text").innerHTML = '<b>' + "NIC Asia Bank (preferred)" + '</b><br/>' + JSON.stringify(preferredData['qrdata']);
+
         var foo = function () {
-            for (const [key, value] of Object.entries(accounts)) {
-                var button = document.createElement('button');
-                button.innerHTML = key;
-                button.onclick = function () {
-                    document.getElementById("image").src = "https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=" + encodeURIComponent(JSON.stringify(value));document.getElementById("text").innerHTML=key;
-                    // alert(JSON.stringify(value)); return false;
-                };
-                document.getElementById('foobutton').appendChild(button);
-                // document.body.appendChild(button);
+            for (const [wtype, wdata] of Object.entries(accounts)) {
+                var wdiv = document.createElement('p');
+                wdiv.innerHTML = wtype;
+                document.getElementById('foobutton').appendChild(wdiv);
+                for (const [key, value] of Object.entries(wdata)) {
+                    var button = document.createElement('button');
+                    button.innerHTML = key;
+                    button.onclick = function () {
+                        var qrData = value['qrdata'];
+                        document.getElementById("image").src = qrAPIlink + encodeURIComponent(JSON.stringify(qrData)); document.getElementById("text").innerHTML = '<b>' + key + '</b><br/>' + (wtype == "Bank Transfer" ? qrData["accountName"] + '<br/>' + qrData["accountNumber"] + '<br/>' : JSON.stringify(qrData));
+                        // alert(JSON.stringify(value)); return false;
+                    };
+                    document.getElementById('foobutton').appendChild(button);
+                    // document.body.appendChild(button);
+                }
             }
         };
         foo()
