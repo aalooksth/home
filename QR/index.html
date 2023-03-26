@@ -2,24 +2,29 @@
 <html lang="en">
 
 <head>
-    <title>Alok</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Alok|QRs</title>
     <style>
         .center {
             text-align: center;
         }
     </style>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
 </head>
 
 <body>
-    <p><a href="/">Return to home</a></p>
-    <h1>Pay to Alok</h1>
-    <div class="center">
-        <div id="foobutton"></div>
-        <img alt='QR' id="image" />
-        <div id="text"></div>
+    <div class="content">
+        <p><a href="/">Return to home</a></p>
+        <h1>Alok QRs for payment</h1>
+        <div class="center content">
+            <div id="foobutton"></div>
+            <img alt='QR' id="image" />
+            <div id="text"></div>
+        </div>
     </div>
     <script>
-        var qrAPIlink = "https://quickchart.io/qr?size=300&text=";
+        var qrAPIlink = "https://quickchart.io/qr?size=200&text=";
         // "https://api.qrserver.com/v1/create-qr-code/?size=300x300&data="
         var accounts = {
             "Bank Transfer": {
@@ -64,22 +69,37 @@
         };
 
         var preferredData = accounts['Bank Transfer']["NIC Asia Bank (preferred)"]
-        document.getElementById("image").src = qrAPIlink + encodeURIComponent(JSON.stringify(preferredData['qrdata']));
-        document.getElementById("text").innerHTML = '<b>' + "NIC Asia Bank (preferred)" + '</b><br/>' + JSON.stringify(preferredData['qrdata']);
 
+
+        var getone = function (wtype, key, apply = false) {
+            var value = accounts[wtype][key];
+            var button = document.createElement('button');
+            button.innerHTML = key;
+            button.classList = ["button"]
+            button.onclick = function () {
+                var qrData = value['qrdata'];
+                document.getElementById("image").src = qrAPIlink + encodeURIComponent(JSON.stringify(qrData)); document.getElementById("text").innerHTML = '<b>' + key + '</b><br/>' + (wtype == "Bank Transfer" ? qrData["accountName"] + '<br/>' + qrData["accountNumber"] + '<br/>' : JSON.stringify(qrData));
+                // alert(JSON.stringify(value)); return false;
+            };
+            if (apply == true) {
+                var qrData = value['qrdata'];
+                document.getElementById("image").src = qrAPIlink + encodeURIComponent(JSON.stringify(qrData));
+                document.getElementById("text").innerHTML = '<b>' + key + '</b><br/>' + (wtype == "Bank Transfer" ? qrData["accountName"] + '<br/>' + qrData["accountNumber"] + '<br/>' : JSON.stringify(qrData));
+            }
+            return button;
+        };
+
+        getone('Bank Transfer', 'NIC Asia Bank (preferred)', true);
+
+        // document.getElementById("image").src = qrAPIlink + encodeURIComponent(JSON.stringify(preferredData['qrdata']));
+        // document.getElementById("text").innerHTML = '<b>' + "NIC Asia Bank (preferred)" + '</b><br/>' + JSON.stringify(preferredData['qrdata']);
         var foo = function () {
             for (const [wtype, wdata] of Object.entries(accounts)) {
-                var wdiv = document.createElement('p');
+                var wdiv = document.createElement('h2');
                 wdiv.innerHTML = wtype;
                 document.getElementById('foobutton').appendChild(wdiv);
                 for (const [key, value] of Object.entries(wdata)) {
-                    var button = document.createElement('button');
-                    button.innerHTML = key;
-                    button.onclick = function () {
-                        var qrData = value['qrdata'];
-                        document.getElementById("image").src = qrAPIlink + encodeURIComponent(JSON.stringify(qrData)); document.getElementById("text").innerHTML = '<b>' + key + '</b><br/>' + (wtype == "Bank Transfer" ? qrData["accountName"] + '<br/>' + qrData["accountNumber"] + '<br/>' : JSON.stringify(qrData));
-                        // alert(JSON.stringify(value)); return false;
-                    };
+                    var button = getone(wtype, key);
                     document.getElementById('foobutton').appendChild(button);
                     // document.body.appendChild(button);
                 }
