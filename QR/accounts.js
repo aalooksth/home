@@ -34,8 +34,12 @@ var data = {
         "Khalti": {
             "qrdata": "00020101021115314079052400520446C7KzcrKHoxVexRy5204701153035245802NP5919Alok General Stores6005Nepal621207080000000080260022C7KzcrKHoxVexRy5c2EfkB6304D6BC"
         },
-        "connectIPS / NepalPayQR": {
+         "IME Pay": {
+            "qrdata": "34071c43a61fd112fb4e36f24247e4579720643170adc79ba0f19fdf54ce12618471a713efc7001e3ce6427f22ec5298"
+        },
+        "connectIPS": {
             "qrdata": "01021129270023NCHL00000000MER-1-APP-252044829530352454010560105802NP5914Alok Shrestha 6009Kathmandu6235021098493913750817CIPS P2P Transfer63044920"
-        }
+        },
+       
     }
 }
