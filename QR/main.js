@@ -9,7 +9,7 @@ var getone = function (QRtype, key, apply = false) {
     button.classList = ["button"]
     button.onclick = function () {
         var qrData = value['qrdata'];
-        document.getElementById("image").src = qrAPIlink + encodeURIComponent((QRtype == "Bank Transfer" ? JSON.stringify(qrData) : qrData));
+        document.getElementById("image").src = qrAPIlink + encodeURIComponent((typeof(qrData) == "string" ? qrData : JSON.stringify(qrData)));
         document.getElementById("text").innerHTML = '<b>' + key + '</b><br/>' + (QRtype == "Bank Transfer" ? qrData["accountName"] + '<br/>' + qrData["accountNumber"] + '<br/>' : '');
         // alert(JSON.stringify(value)); return false; JSON.stringify(qrData)
     };
