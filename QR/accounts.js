@@ -38,7 +38,7 @@ var data = {
             "qrdata": "01021129270023NCHL00000000MER-1-APP-252044829530352454010560105802NP5914Alok Shrestha 6009Kathmandu6235021098493913750817CIPS P2P Transfer63044920"
         },
         "eSewa": {
-            "qrdata": { "eSewa_id": "9849391375", "name": "ALOK SHRESTHA" }
+            "qrdata": {"eSewa_id":"9849391375","name":"ALOK SHRESTHA"}
         },
        
     }
